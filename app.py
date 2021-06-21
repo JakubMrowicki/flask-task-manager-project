@@ -154,6 +154,9 @@ def delete_task(task_id):
 
 @app.route("/get_categories")
 def get_categories():
+    if session["user"].lower() != "admin":
+        flash("Admin only area")
+        return redirect(url_for("get_tasks"))
     categories = list(mongo.db.categories.find().sort("category_name", 1))
     return render_template("categories.html", categories=categories)
 
